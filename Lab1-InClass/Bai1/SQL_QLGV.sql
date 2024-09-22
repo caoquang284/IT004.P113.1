@@ -1,0 +1,81 @@
+CREATE TABLE KHOA (
+    MAKHOA char(4) PRIMARY KEY,
+    TENKHOA varchar(40),
+    NGTLAP smalldatetime,
+    TRGKHOA char(4)
+);
+
+CREATE TABLE MONHOC (
+    MAMH varchar(10) PRIMARY KEY,
+    TENMH varchar(40),
+    TCLT tinyint,
+    TCTH tinyint,
+    MAKHOA char(4) FOREIGN KEY REFERENCES KHOA(MAKHOA)
+);
+
+CREATE TABLE DIEUKIEN (
+    MAMH varchar(10),
+    MAMH_TRUOC varchar(10),
+    PRIMARY KEY (MAMH, MAMH_TRUOC),
+    FOREIGN KEY (MAMH) REFERENCES MONHOC(MAMH),
+    FOREIGN KEY (MAMH_TRUOC) REFERENCES MONHOC(MAMH)
+);
+
+CREATE TABLE GIAOVIEN (
+    MAGV char(4) PRIMARY KEY,
+    HOTEN varchar(40),
+    GIOITINH char(3),
+    NGSINH smalldatetime, NGVL smalldatetime,
+    HESO numeric(4,2),
+    MUCLUONG money,
+    MAKHOA char(4) FOREIGN KEY REFERENCES KHOA(MAKHOA)
+);
+
+CREATE TABLE LOP (
+    MALOP char(3) PRIMARY KEY,
+    TENLOP varchar(40),
+    SISO tinyint,
+    MAGVCN char(4) FOREIGN KEY REFERENCES GIAOVIEN(MAGV),
+    MAKHOA char(4) FOREIGN KEY REFERENCES KHOA(MAKHOA)
+);
+
+CREATE TABLE HOCVIEN (
+    MAHV char(5) PRIMARY KEY,
+    HO varchar(40),
+    TEN varchar(10),
+    NGSINH smalldatetime,
+    GIOITINH char(3),
+    NOISINH varchar(40),
+    MALOP char(3) FOREIGN KEY REFERENCES LOP(MALOP),
+);
+
+CREATE TABLE GIANGDAY (
+    MALOP char(3),
+    MAMH varchar(10),
+    MAGV char(4),
+    HOCKY tinyint,
+    NAM smallint,
+    TUNGAY smalldatetime, DENNGAY smalldatetime,
+    PRIMARY KEY (MALOP, MAMH, MAGV, HOCKY, NAM),
+    FOREIGN KEY (MALOP) REFERENCES LOP(MALOP),
+    FOREIGN KEY (MAMH) REFERENCES MONHOC(MAMH),
+    FOREIGN KEY (MAGV) REFERENCES GIAOVIEN(MAGV)
+);
+
+CREATE TABLE KETQUATHI (
+    MAHV char(5),
+    MAMH varchar(10),
+    LANTHI tinyint,
+    NGTHI smalldatetime,
+    DIEM numeric(4,2),
+    KQUA varchar(10),
+    PRIMARY KEY (MAHV, MAMH, LANTHI),
+    FOREIGN KEY (MAHV) REFERENCES HOCVIEN(MAHV),
+    FOREIGN KEY (MAMH) REFERENCES MONHOC(MAMH)
+);
+
+ALTER TABLE HOCVIEN
+ADD GHICHU varchar(255),
+	DIEMTB numeric(4,2),
+	XEPLOAI varchar(10);
+
