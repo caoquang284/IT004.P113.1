@@ -170,11 +170,11 @@ VALUES
  SELECT TenDuAn FROM DuAn WHERE YEAR(NgayKetThuc) = 2023; 
 
 -- 63. Hiển thị tên và cấp độ của các kỹ năng trong bảng ChuyenGia_KyNang.
- SELECT TenKyNang, CapDo FROM ChuyenGia_KyNang
- INNER JOIN KyNang ON ChuyenGia_KyNang.MaKyNang = KyNang.MaKyNang;
+ SELECT TenKyNang, CapDo FROM ChuyenGia_KyNang, KyNang
+ WHERE ChuyenGia_KyNang.MaKyNang = KyNang.MaKyNang;
 
 -- 64. Liệt kê mã chuyên gia và vai trò trong các dự án từ bảng ChuyenGia_DuAn.
-SELECT MaChuyenGia, VaiTro FROM ChuyenGia_DuAn;
+ SELECT MaChuyenGia, VaiTro FROM ChuyenGia_DuAn;
 
 -- 65. Hiển thị họ tên và ngày sinh của các chuyên gia sinh năm 1990 trở về sau.
  SELECT HoTen, NgaySinh FROM ChuyenGia
