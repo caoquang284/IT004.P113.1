@@ -1,0 +1,49 @@
+SELECT DISTINCT sp.MASP, sp.TENSP
+FROM SANPHAM sp
+LEFT JOIN CTHD ct ON sp.MASP = ct.MASP
+LEFT JOIN HOADON hd ON ct.SOHD = hd.SOHD
+WHERE sp.NUOCSX = 'Trung Quoc' 
+OR hd.NGHD = '2007-01-01';
+
+SELECT sp.MASP, sp.TENSP
+FROM SANPHAM sp
+WHERE NOT EXISTS (
+    SELECT * FROM CTHD ct 
+    WHERE ct.MASP = sp.MASP
+);
+
+SELECT sp.MASP, sp.TENSP
+FROM SANPHAM sp
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM CTHD ct 
+    JOIN HOADON hd ON ct.SOHD = hd.SOHD
+    WHERE ct.MASP = sp.MASP 
+    AND YEAR(hd.NGHD) = 2006
+);
+
+SELECT sp.MASP, sp.TENSP
+FROM SANPHAM sp
+WHERE sp.NUOCSX = 'Trung Quoc'
+AND NOT EXISTS (
+    SELECT * 
+    FROM CTHD ct 
+    JOIN HOADON hd ON ct.SOHD = hd.SOHD
+    WHERE ct.MASP = sp.MASP 
+    AND YEAR(hd.NGHD) = 2006
+);
+
+SELECT DISTINCT hd.SOHD
+FROM HOADON hd
+WHERE YEAR(hd.NGHD) = 2006
+AND NOT EXISTS (
+    SELECT sp.MASP
+    FROM SANPHAM sp
+    WHERE sp.NUOCSX = 'Singapore'
+    AND NOT EXISTS (
+        SELECT *
+        FROM CTHD ct
+        WHERE ct.SOHD = hd.SOHD
+        AND ct.MASP = sp.MASP
+    )
+);

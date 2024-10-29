@@ -189,4 +189,11 @@ GROUP BY cg.HoTen
 HAVING AVG(CAST(ck.CapDo AS FLOAT)) > 3
 ORDER BY TrungBinhCapDo DESC;
 
+SELECT cg.MaChuyenGia, cg.HoTen, AVG(ck.CapDo) AS CapDoTrungBinh
+FROM ChuyenGia_KyNang ck
+JOIN ChuyenGia cg ON ck.MaChuyenGia = cg.MaChuyenGia
+WHERE cg.MaChuyenGia IN (SELECT MaChuyenGia FROM ChuyenGia WHERE ChuyenNganh = N'Phát triển phần mềm')
+GROUP BY cg.MaChuyenGia, cg.HoTen
+HAVING AVG(ck.CapDo) > 3
+ORDER BY CapDoTrungBinh DESC;
 
